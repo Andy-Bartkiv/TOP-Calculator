@@ -41,6 +41,19 @@ body {
     justify-content: flex-end;
 }
 
+.blinking{
+    animation:blinkingText 1.5s infinite;
+}
+@keyframes blinkingText{
+    0%{     color: #000;    }
+    49%{    color: #000; }
+    60%{    color: transparent; }
+    99%{    color:transparent;  }
+    100%{   color: #000;    }
+}
+
+/* - - - KEYBOARD - - - */
+
 .keyboard {
     height: 70%;
     padding: 10px;
@@ -56,7 +69,7 @@ body {
 .btn {
     font-size: 7vmin;
     border: 1px solid #1e1e1e;
-    border-radius: 2em;
+    border-radius: 50%;
     text-align: center;
     display: flex;
     align-items: center;
