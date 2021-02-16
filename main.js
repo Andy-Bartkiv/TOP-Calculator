@@ -2,25 +2,29 @@ function updateAppState(key) {
     if (key === "clear") {
         displayClear();
         displaySymb("_")
+        appState = {opr : '_', aaa : 'aaa', bbb : 'bbb'}
     } else if (key === "undo") {
         displayUndo();
     } else if (key.match(/\d/)) {
         displaySymb(key);
 
     } else if (key.match(/A|S|M|D/)) {
-        appState.opr = key;
         appState.aaa = display.textContent;
+        //if (appState.aaa !== "_") 
+            appState.opr = key;
 
     } else if (key === 'equals') {
-        console.log(`It's ${key}`);
-    }
+        appState.bbb = display.textContent;
+        displayNumb(operate(appState.opr, appState.aaa, appState.bbb))
+        appState.opr = key;
+    } 
+    console.log(appState);
 }
 
 function displaySymb(symb) {
-    if (symb === '0') {
-        if (display.textContent[0] == "0")
-            display.textContent = "";
-    } else if (symb === "_")
+    if (display.textContent[0] == "0")
+        display.textContent = "";
+    if (symb === "_")
         display.classList.add('blinking');
     if (display.textContent === "_") {
         display.textContent = "";
@@ -51,10 +55,10 @@ function div2(a,b) {
     else return a/b}
 function operate(opr, a, b) {
     return {
-        A: add2(a,b),
-        S: sub2(a,b),
-        M: mult2(a,b),
-        D: div2(a,b)
+        A: add2(Number(a),Number(b)),
+        S: sub2(Number(a),Number(b)),
+        M: mult2(Number(a),Number(b)),
+        D: div2(Number(a),Number(b))
     }[opr];
 }
 
@@ -69,16 +73,31 @@ let appState = { // App current State tracker
 
 let display = document.querySelector(".display")
 
-
-// let btns = [...document.querySelectorAll('.btn')];
-
-
-displayNumb("@2021_Andy_Bartkiv_");
+// displayNumb("@2021_Andy_Bartkiv_");
+updateAppState("clear");
 
 document.querySelectorAll('.btn').forEach(btn => {
     btn.addEventListener('click', (event) => {
         valDisplay = document.querySelector(".display").textContent;
-        console.log(event.target.textContent, event.target.id, valDisplay);       
         updateAppState(event.target.id);
     })
+})
+
+document.addEventListener('keydown', event => {
+    let keyPressed = "";
+    keyPressed = (event.key.match(/\d/)) 
+        ? event.key
+        : {
+        "Escape"    : "clear",
+        "Backspace" : "undo",
+        "+"         : "A",
+        "-"         : "S",
+        "*"         : "M",
+        "/"         : ":",
+        "."         : "dot",
+        "="         : "equals",
+        "Enter"     : "equals"
+        }[event.key]
+
+    if (keyPressed) updateAppState(keyPressed);
 })
