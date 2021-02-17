@@ -5,12 +5,13 @@
 
 :root {
     --bgd-color: #1e1e1e;
+    --bgd-color-light: #2e2e2e;
     --prm-color: #e1e1e1;
 }
 
 body {
     font-size: 12px;
-    background-color: var(--bgd-color);
+    background-color: #333;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -70,6 +71,7 @@ div {
     height: 70%;
     padding: 10px;
     background-color: var(--prm-color);
+    color: var(--bgd-color);
     border: 1px solid var(--bgd-color);
     border-radius: 10px;
     display: grid;

@@ -1,24 +1,44 @@
 function updateAppState(key) {
+
     if (key === "clear") {
         displayClear();
-        displaySymb("_")
-        appState = {opr : '_', aaa : 'aaa', bbb : 'bbb'}
+
     } else if (key === "undo") {
-        displayUndo();
+        if (appState.aaa !== display.textContent)
+            if (appState.bbb !== "" || appState.aaa === "") {
+                displayUndo();
+                appState.bbb = appState.bbb.slice(0,-1);
+            }
+
     } else if (key.match(/\d/)) {
+        if (appState.aaa === display.textContent)
+            if (appState.bbb === "")
+                display.textContent = "";
         displaySymb(key);
+        if (appState.aaa !== "") 
+            appState.bbb = display.textContent;
 
     } else if (key.match(/A|S|M|D/)) {
-        appState.aaa = display.textContent;
-        //if (appState.aaa !== "_") 
-            appState.opr = key;
+        if (appState.bbb !== "") {
+            displayNumb(operate(appState));
+            appState.bbb = "";
+        }
+        appState.aaa = (display.textContent !== "_")
+                        ? display.textContent
+                        : ""
+       
+        appState.opr = key;
 
     } else if (key === 'equals') {
-        appState.bbb = display.textContent;
-        displayNumb(operate(appState.opr, appState.aaa, appState.bbb))
-        appState.opr = key;
+        if (appState.bbb !== "") {
+            displayNumb(operate(appState));
+            appState.bbb = "";
+            appState.aaa = (display.textContent !== "_")
+                            ? display.textContent
+                            : ""        
+        }
     } 
-    console.log(appState);
+    console.log(appState, display.textContent);
 }
 
 function displaySymb(symb) {
@@ -36,6 +56,9 @@ function displaySymb(symb) {
 }
 
 function displayNumb(numb) {
+    if (`${numb}`.length > digLimBtm) {
+        numb = numb.toExponential(digLimBtm-5   );
+    }
     display.textContent = `${numb}`;
 }
 function displayUndo() {
@@ -45,30 +68,34 @@ function displayUndo() {
 }
 function displayClear() {
     display.textContent = "";
+    displaySymb("_");
+    for (prop in appState) appState[prop] = "";
 }
 
 function add2(a,b) {return a+b}
 function sub2(a,b) {return a-b}
 function mult2(a,b) {return a*b}
 function div2(a,b) {
-    if (b === 0) return 'ERROR -> Div by 0'
+    if (b === 0) return 'ERROR:Div by 0'
     else return a/b}
-function operate(opr, a, b) {
+function operate(objState) {
+    const a = Number(objState.aaa);
+    const b = Number(objState.bbb);
     return {
-        A: add2(Number(a),Number(b)),
-        S: sub2(Number(a),Number(b)),
-        M: mult2(Number(a),Number(b)),
-        D: div2(Number(a),Number(b))
-    }[opr];
+        A: add2(a,b),
+        S: sub2(a,b),
+        M: mult2(a,b),
+        D: div2(a,b)
+    }[objState.opr];
 }
 
-const digLimTop = 19;
-const digLimBtm = 19;
+const digLimTop = 0;
+const digLimBtm = 14;
 
 let appState = { // App current State tracker
-            opr : '_',
-            aaa : 'aaa',
-            bbb : 'bbb'
+            opr : "",
+            aaa : "",
+            bbb : ""
 }
 
 let display = document.querySelector(".display")
@@ -93,7 +120,7 @@ document.addEventListener('keydown', event => {
         "+"         : "A",
         "-"         : "S",
         "*"         : "M",
-        "/"         : ":",
+        "/"         : "D",
         "."         : "dot",
         "="         : "equals",
         "Enter"     : "equals"
