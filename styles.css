@@ -7,6 +7,7 @@
     --bgd-color: #1e1e1e;
     --bgd-color-light: #2e2e2e;
     --prm-color: #e1e1e1;
+    --sec-color: #b0b0b0;
 }
 
 body {
@@ -99,12 +100,17 @@ div {
     background-color: #dddddd
 }
 
-.btn:active {
+.btn:active, .active {
     border-color: #dddddd;
     background-color: #dddddd;
     box-shadow: 0 0px var(--bgd-color);
     transform: translateY(4px);
 }
+
+#equals, #M, #D, #A, #S {
+    background-color: var(--sec-color);
+}
+
 
 #equals {
     grid-column-start: 4;

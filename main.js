@@ -3,7 +3,7 @@ function updateAppState(key) {
     if (key === "clear") {
         displayClear();
 
-    } else if (key === "undo") {
+    } else if (key === "undo" && display.textContent[0] !== "E") {
         if (appState.aaa !== display.textContent)
             if (appState.bbb !== "" || appState.aaa === "") {
                 displayUndo();
@@ -29,13 +29,18 @@ function updateAppState(key) {
        
         appState.opr = key;
 
+        if (display.textContent[0] === "E")
+            for (prop in appState) appState[prop] = "";
+
     } else if (key === 'equals') {
         if (appState.bbb !== "") {
             displayNumb(operate(appState));
             appState.bbb = "";
             appState.aaa = (display.textContent !== "_")
                             ? display.textContent
-                            : ""        
+                            : ""
+            if (display.textContent[0] === "E")
+                for (prop in appState) appState[prop] = "";
         }
     } 
     console.log(appState, display.textContent);
@@ -56,10 +61,17 @@ function displaySymb(symb) {
 }
 
 function displayNumb(numb) {
-    if (`${numb}`.length > digLimBtm) {
-        numb = numb.toExponential(digLimBtm-5   );
+    let res = `${numb}`
+    if (res.length > digLimBtm) {
+        res = `${numb.toExponential()}`;
+        let exp = res.slice(res.search("e"));
+        console.log("\n", res, res.search("e"), exp);
+        if (res.length > digLimBtm) {
+            res = res.slice(0, digLimBtm-exp.length);
+            res += `${exp}`;
+        }
     }
-    display.textContent = `${numb}`;
+    display.textContent = res;
 }
 function displayUndo() {
     display.textContent = display.textContent.slice(0,-1);
@@ -75,9 +87,9 @@ function displayClear() {
 function add2(a,b) {return a+b}
 function sub2(a,b) {return a-b}
 function mult2(a,b) {return a*b}
-function div2(a,b) {
+function div2(a,b) { 
     if (b === 0) return 'ERROR:Div by 0'
-    else return a/b}
+    else         return a/b }
 function operate(objState) {
     const a = Number(objState.aaa);
     const b = Number(objState.bbb);
@@ -87,6 +99,10 @@ function operate(objState) {
         M: mult2(a,b),
         D: div2(a,b)
     }[objState.opr];
+}
+
+function removeClassActive(element) {
+    element.classList.remove("active");
 }
 
 const digLimTop = 0;
@@ -126,5 +142,13 @@ document.addEventListener('keydown', event => {
         "Enter"     : "equals"
         }[event.key]
 
-    if (keyPressed) updateAppState(keyPressed);
+        if (keyPressed) { 
+            updateAppState(keyPressed);
+            let keyBtn = document.getElementById(keyPressed);
+            keyBtn.classList.add("active");
+            document.addEventListener("keyup", e => 
+                removeClassActive(keyBtn))
+            document.removeEventListener("keyup", e => 
+                removeClassActive(keyBtn)) 
+        }
 })
