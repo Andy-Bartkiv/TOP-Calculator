@@ -3,6 +3,15 @@ function updateAppState(key) {
     if (key === "clear") {
         displayClear();
 
+    } else if (key === "sign"  && display.textContent[0] !== "E") {
+        if (display.textContent[0] !== "-") {
+            if (display.textContent[0] !== "_")
+                if (display.textContent.length < digLimBtm)
+                    display.textContent = "-" + display.textContent;
+        } else {
+            display.textContent = display.textContent.slice(1);
+        }
+    
     } else if (key === "undo" && display.textContent[0] !== "E") {
         if (appState.aaa !== display.textContent)
             if (appState.bbb !== "" || appState.aaa === "") {
@@ -10,7 +19,10 @@ function updateAppState(key) {
                 appState.bbb = appState.bbb.slice(0,-1);
             }
 
-    } else if (key.match(/\d/)) {
+    } else if (key.match(/\d|dot/)) {
+        console.log(key)
+        if (key === "dot") key = ".";
+        console.log(key)
         if (appState.aaa === display.textContent)
             if (appState.bbb === "")
                 display.textContent = "";
@@ -20,44 +32,52 @@ function updateAppState(key) {
 
     } else if (key.match(/A|S|M|D/)) {
         if (appState.bbb !== "") {
+            appState.bbb = display.textContent;
             displayNumb(operate(appState));
             appState.bbb = "";
         }
         appState.aaa = (display.textContent !== "_")
                         ? display.textContent
                         : ""
-       
         appState.opr = key;
-
         if (display.textContent[0] === "E")
             for (prop in appState) appState[prop] = "";
 
     } else if (key === 'equals') {
         if (appState.bbb !== "") {
+            appState.bbb = display.textContent;
             displayNumb(operate(appState));
-            appState.bbb = "";
-            appState.aaa = (display.textContent !== "_")
-                            ? display.textContent
-                            : ""
-            if (display.textContent[0] === "E")
-                for (prop in appState) appState[prop] = "";
+// EQUALS allows user to modify result as first operand 
+//  ->                          for further calculations
+            for (prop in appState) appState[prop] = "";
+// Different logic -> user can not modify first operand
+// -> last OPERATOR is kept for further calculations
+//            appState.bbb = "";
+//            appState.aaa = (display.textContent !== "_")
+//                            ? display.textContent
+//                            : ""
+//            if (display.textContent[0] === "E")
+//                for (prop in appState) appState[prop] = "";
         }
     } 
     console.log(appState, display.textContent);
 }
 
 function displaySymb(symb) {
+    if (symb === ".")
+        if (display.textContent.indexOf(".") >= 0)
+            symb = "";
     if (display.textContent[0] == "0")
         display.textContent = "";
     if (symb === "_")
         display.classList.add('blinking');
     if (display.textContent === "_") {
         display.textContent = "";
-        display.classList.remove('blinking')
+        display.classList.remove('blinking');
     }
-    display.textContent += `${symb[0]}`
+    display.textContent += `${symb}`
     if (display.textContent.length > digLimBtm) 
-        display.textContent = display.textContent.slice(0,-1)
+        display.textContent = display.textContent.slice(0,-1);
 }
 
 function displayNumb(numb) {
@@ -91,6 +111,10 @@ function div2(a,b) {
     if (b === 0) return 'ERROR:Div by 0'
     else         return a/b }
 function operate(objState) {
+    for (prop in appState) 
+        appState[prop] = (appState[prop] !== ".")
+                        ? appState[prop]
+                        : 0;
     const a = Number(objState.aaa);
     const b = Number(objState.bbb);
     return {

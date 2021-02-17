@@ -35,7 +35,7 @@ div {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    justify-content: space-evenly;
+    justify-content: space-between;
     width: 100vmin;
     height: 100vmin;
     border-radius: 10px;
@@ -44,11 +44,12 @@ div {
 .display {
     font-size: 14vmin;
     font-family: fontDigital-7, monospace;
+    white-space: nowrap;
     height: 17%;
     background-color: var(--bgd-color);
     color: var(--prm-color);
     padding: 10px;
-    margin: 0 10px;
+    margin: 0.1em 0.1em;
     border-radius: 10px;
     display: flex;
     align-items:center;
@@ -69,7 +70,7 @@ div {
 /* - - - KEYBOARD - - - */
 
 .keyboard {
-    height: 70%;
+    height: 75%;
     padding: 10px;
     background-color: var(--prm-color);
     color: var(--bgd-color);
@@ -111,13 +112,19 @@ div {
     background-color: var(--sec-color);
 }
 
-
 #equals {
     grid-column-start: 4;
     grid-column-end: 6;
     border-radius: 2em;
 }
 
+.footer {
+    color: var(--bgd-color-light);
+    justify-self: flex-end;
+    align-self: center;
+    font-size: 1em;
+    margin: 0.2em;
+}
 
 @media (max-width: 300px) {
     .container {
