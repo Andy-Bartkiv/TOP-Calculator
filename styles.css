@@ -19,6 +19,7 @@ body {
     font-family: 'Courier New', Courier, monospace;
     }
 
+/*To PREVENT DIV-TEXT SELECTION by Mouse at the Page*/
 div {
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
