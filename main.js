@@ -88,28 +88,33 @@ function displayNumb(numb) {
         console.log("\n", res, res.search("e"), exp);
         if (res.length > digLimBtm) {
             res = res.slice(0, digLimBtm-exp.length);
-            res += `${exp}`;
+            res += exp;
         }
+        if (numb < 1)
+            res = "0." + res.replace(".","")
+                             .slice(0, res.length-2-exp.length) + exp;
     }
     display.textContent = res;
 }
+
 function displayUndo() {
     display.textContent = display.textContent.slice(0,-1);
     if (display.textContent.length === 0)
         displaySymb("_");
 }
+
 function displayClear() {
     display.textContent = "";
     displaySymb("_");
     for (prop in appState) appState[prop] = "";
 }
 
-function add2(a,b) {return a+b}
-function sub2(a,b) {return a-b}
-function mult2(a,b) {return a*b}
+function add2(a,b) {return (a*10+b*10)/10}
+function sub2(a,b) {return (10*a-10*b)/10}
+function mult2(a,b) {return 10*a*b/10}
 function div2(a,b) { 
     if (b === 0) return 'ERROR:Div by 0'
-    else         return a/b }
+    else         return 10*a/b/10 }
 function operate(objState) {
     for (prop in appState) 
         appState[prop] = (appState[prop] !== ".")
@@ -122,7 +127,7 @@ function operate(objState) {
         S: sub2(a,b),
         M: mult2(a,b),
         D: div2(a,b)
-    }[objState.opr];
+    }[objState.opr].toFixed(digLimBtm-5);
 }
 
 function removeClassActive(element) {
