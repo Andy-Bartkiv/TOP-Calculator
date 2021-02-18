@@ -19,10 +19,8 @@ function updateAppState(key) {
                 appState.bbb = appState.bbb.slice(0,-1);
             }
 
-    } else if (key.match(/\d|dot/)) {
-        console.log(key)
+    } else if (key[0].match(/\d|d/)) { // \d|dot, [0] to prevent F4,F5
         if (key === "dot") key = ".";
-        console.log(key)
         if (appState.aaa === display.textContent)
             if (appState.bbb === "")
                 display.textContent = "";
@@ -67,8 +65,9 @@ function displaySymb(symb) {
     if (symb === ".")
         if (display.textContent.indexOf(".") >= 0)
             symb = "";
-    if (display.textContent[0] == "0")
-        display.textContent = "";
+    if (display.textContent[0] === "0")
+        if (display.textContent.length <= 1)
+            display.textContent = "";
     if (symb === "_")
         display.classList.add('blinking');
     if (display.textContent === "_") {
@@ -90,9 +89,17 @@ function displayNumb(numb) {
             res = res.slice(0, digLimBtm-exp.length);
             res += exp;
         }
-        if (numb < 1)
-            res = "0." + res.replace(".","")
-                             .slice(0, res.length-2-exp.length) + exp;
+        if (Math.abs(numb) < 1)
+            if (Math.abs(numb) < 1/(10**digLimBtm)) {
+                res = (numb >= 0) 
+                    ? "0." + res.replace(".","").slice(0, res.length-2-exp.length) + exp
+                    : "-0." + res.replace(".","").slice(1, res.length-2-exp.length) + exp
+            } else {
+                res = (numb >= 0)
+                    ? numb.toFixed(digLimBtm-2)
+                    : numb.toFixed(digLimBtm-2-1)
+                console.log(numb, res)
+            }
     }
     display.textContent = res;
 }
@@ -127,7 +134,7 @@ function operate(objState) {
         S: sub2(a,b),
         M: mult2(a,b),
         D: div2(a,b)
-    }[objState.opr].toFixed(digLimBtm-5);
+    }[objState.opr];
 }
 
 function removeClassActive(element) {
