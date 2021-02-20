@@ -42,19 +42,29 @@ div {
     border-radius: 10px;
 }
 
-.display {
-    font-size: 14vmin;
-    font-family: fontDigital-7, monospace;
-    white-space: nowrap;
+.cont-display {
     height: 17%;
     background-color: var(--bgd-color);
     color: var(--prm-color);
+    margin: 0.5em;
     padding: 10px;
-    margin: 0.1em 0.1em;
     border-radius: 10px;
     display: flex;
     align-items:center;
-    justify-content: flex-end;
+    justify-content: flex-end;  
+}
+
+.display {
+    padding: 2vmin;
+    font-size: 14vmin;
+    font-family: fontDigital-7, monospace;
+    white-space: nowrap;
+    background-color: var(--bgd-color);
+    color: var(--prm-color);
+    height: 12vmin;
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
 }
 
 .blinking{
