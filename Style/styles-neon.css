@@ -15,14 +15,10 @@
     font-family: 'Courier New', Courier, monospace;
     --color-dark-grey: #1e1e1e;
     --color-dark-green: #032113;
-    --color-dark-green-transp: #032113dd;
-    --color-green: #143224;
+    --color-dark-green-50: #03211350;
     --color-bright-green: #21f396;
     --color-middle-green: #258457;
-    --color-orgred: #ff4500;
-    --color-drk-2e: #2e2e2e;
-    --color-022112: #022112;
-    --color-orange2: #F39621;
+
 }
 
 /*To PREVENT DIV-TEXT SELECTION by Mouse at the Page*/
@@ -37,13 +33,11 @@ div {
 }
 
 body {
-    background-color: var(--color-dark-grey);
+    background: var(--color-dark-grey) url("/Assets/Neon-BG.jpg");
 }
 
 .container {
     margin: auto;
-    background-color: var(--color-green);
-    color: var(--color-orange2);
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -56,13 +50,14 @@ body {
 /* - - - DISPALY - - - */
 .cont-display {
     background-color: var(--color-dark-green);
+    border: 2px solid var(--color-middle-green);
     color: var(--color-bright-green);
-    border-radius: 0.1rem;
+    border-radius: 0.2rem;
     display: flex;
     align-items:center;
     justify-content: flex-end;
-    margin: 0.1rem;
-    margin-bottom: 0;
+    margin-top: 0.1rem;
+    padding: 0 0.1rem;
 }
 
 .display {
@@ -89,7 +84,7 @@ body {
 
 /* - - - KEYBOARD - - - */
 .keyboard {
-    background-color: var(--color-dark-green-transp);
+    background-color: var(--color-dark-green-50);
     color: var(--color-middle-green);
     border: 2px solid var(--color-middle-green);
     border-radius: 0.2rem;
@@ -102,6 +97,7 @@ body {
 }
 
 .btn {
+    background-color: var(--color-dark-green-50);
     font-size: 0.6rem;
     border: 2px solid var(--color-middle-green);
     border-radius: 50%;
@@ -113,28 +109,34 @@ body {
     transition: 0.1s;
 }
 
+#equals {
+    grid-column: 4/6;
+    border-radius: 1rem;
+}
+
+#equals, #M, #D, #A, #S {
+    font-weight: 900;
+}
+
 .btn:hover {
+    background-color: #00000000; /*Transparent color #000000 00*/
     color: var(--color-bright-green);
     border: 2px solid var(--color-bright-green);
     box-shadow:
         0 0.025rem var(--color-bright-green),
-        0 0px 0.05rem var(--color-bright-green),
-        0 0px 0.1rem var(--color-bright-green);
+        0 0px 0.1rem var(--color-bright-green),
+        0 0px 0.25rem var(--color-bright-green);
 }
 
 .btn:active, .active {
-    border-color: var(--color-lgt-e1);
-    transform: translateY(0.05rem);
-    box-shadow: 0 0 var(--color-lgt-b0),
-}
-
-#equals, #M, #D, #A, #S {
-    background-color: var(--color-lgt-b0);
-}
-
-#equals {
-    grid-column: 4/6;
-    border-radius: 1rem;
+    background-color: var(--color-bright-green);
+    border: 2px solid var(--color-bright-green);
+    color: var(--color-dark-green);
+    transform: translateY(0.04rem);
+    box-shadow:
+        0 0px 0.25rem var(--color-bright-green),
+        0 0px 0.5rem var(--color-bright-green),
+        0 0px 1rem var(--color-bright-green);
 }
 
 /* - - - FOOTER - - - */
