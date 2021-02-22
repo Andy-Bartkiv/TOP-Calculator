@@ -56,7 +56,7 @@ body {
     display: flex;
     align-items:center;
     justify-content: flex-end;
-    margin-top: 0.1rem;
+    margin-top: 0.05rem;
     padding: 0 0.1rem;
 }
 
@@ -125,7 +125,9 @@ body {
     box-shadow:
         0 0.025rem var(--color-bright-green),
         0 0px 0.1rem var(--color-bright-green),
-        0 0px 0.25rem var(--color-bright-green);
+        0 0px 0.25rem var(--color-bright-green),
+        inset 0 0px 0.25rem var(--color-bright-green);
+
 }
 
 .btn:active, .active {
@@ -141,17 +143,63 @@ body {
 
 /* - - - FOOTER - - - */
 .footer {
-    color: var(--color-middle-green);
     justify-self: flex-end;
-    align-self: center;
-    font-size: 0.1rem;
     margin-bottom: 0.05rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.1rem;
+    padding: 0 0.25rem;
+}
+
+input[type="checkbox"] {
+    position: relative;
+    width: 0.25rem;
+    height: 0.1rem;
+    appearance: none;
+    outline: none;
+    background-color: var(--color-bright-green);
+    border-radius: 0.05rem;
+    transition: 0.25s;
     cursor: pointer;
 }
 
-.footer:hover {
+input[type="checkbox"]::before {
+    content: "";
+    position: absolute;
+    width: 0.1rem;
+    height: 0.1rem;
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    background: var(--color-middle-green);
+    transform: scale(1.5);
+    transition: 0.25s;
+}
+
+/* input:hover[type="checkbox"]::before {
+    background: var(--color-bright-green);
+} */
+
+input:checked[type="checkbox"]::before {
+    left: 0.15rem;
+}
+
+input:checked[type="checkbox"] {
+    background-color: orangered;
+}
+.footer-text {
+    color: var(--color-middle-green);
+    cursor: pointer;
+    font-size: 0.1rem;
+}
+
+.footer:hover .footer-text {
     font-weight: 900;
     color: var(--color-bright-green);
+}
+
+.footer:hover input[type="checkbox"]::before {
+    background: var(--color-bright-green);
 }
 
 @media (max-width: 200px) {

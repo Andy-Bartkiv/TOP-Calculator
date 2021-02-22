@@ -11,7 +11,7 @@ function updateAppState(key) {
         } else {
             display.textContent = display.textContent.slice(1);
         }
-    
+
     } else if (key === "undo" && display.textContent[0] !== "E") {
         if (appState.aaa !== display.textContent)
             if (appState.bbb !== "" || appState.aaa === "") {
@@ -25,7 +25,7 @@ function updateAppState(key) {
             if (appState.bbb === "")
                 display.textContent = "";
         displaySymb(key);
-        if (appState.aaa !== "") 
+        if (appState.aaa !== "")
             appState.bbb = display.textContent;
 
     } else if (key.match(/A|S|M|D/)) {
@@ -45,7 +45,7 @@ function updateAppState(key) {
         if (appState.bbb !== "") {
             appState.bbb = display.textContent;
             displayNumb(operate(appState));
-// EQUALS allows user to modify result as first operand 
+// EQUALS allows user to modify result as first operand
 //  ->                          for further calculations
             for (prop in appState) appState[prop] = "";
 {// Different logic -> user can not modify first operand
@@ -58,7 +58,7 @@ function updateAppState(key) {
 //                for (prop in appState) appState[prop] = "";
 }
         }
-    } 
+    }
 //    console.log(appState, display.textContent);
 }
 
@@ -76,14 +76,14 @@ function displaySymb(symb) {
         display.classList.remove('blinking');
     }
     display.textContent += `${symb}`
-    if (display.textContent.length > digLimBtm) 
+    if (display.textContent.length > digLimBtm)
         display.textContent = display.textContent.slice(0,-1);
 }
 
 function displayNumb(numb) {
     let res = `${numb}`;
     let sign = (numb >= 0) ? 0 : -1;
-    if (numb >= 10**digLimBtm 
+    if (numb >= 10**digLimBtm
     || numb <= -(10**(digLimBtm-1))
     || Math.abs(numb) < 1 / (10**(9))) {
         res = numb.toExponential(digLimBtm);
@@ -91,15 +91,15 @@ function displayNumb(numb) {
         res = numb.toExponential(digLimBtm - exp.length - 2 + sign).slice(0, digLimBtm - exp.length);
         if (exp[1] === "-") { // Improving Exponential representation for abs(numb) < 1.
             exp = "e".concat(Number(exp.slice(1)) + 1);
-            res = (numb >= 0) 
+            res = (numb >= 0)
                 ? "0." + res.replace(".","").slice(0, res.length-2)
                 : "-0." + res.replace(".","").slice(1, res.length-2)
         }
         res = clearZeros(res);
         res += exp;
     } else {
-        let dotInd = digLimBtm - res.indexOf(".") + sign;
-        dotInd = (dotInd > 0) ? dotInd : 0; 
+        let dotInd = digLimBtm - res.indexOf(".") - 1;
+        dotInd = (dotInd > 0) ? dotInd : 0;
         res = numb.toFixed(dotInd);
         res = clearZeros(res);
     }
@@ -121,12 +121,9 @@ function displayClear() {
 
 function clearZeros(str) {
     while (str[str.length-1] === "0" && str.indexOf('.') >= 0) {
-        console.log(str)
-        
         str = str.slice(0,-1);
         if (str.slice(-1) === ".") {
             str = str.slice(0,-1);
-            console.log(str)
             break;
         }
     }
@@ -136,11 +133,11 @@ function clearZeros(str) {
 function add2(a,b) {return (a*10+b*10)/10}
 function sub2(a,b) {return (10*a-10*b)/10}
 function mult2(a,b) {return 10*a*b/10}
-function div2(a,b) { 
+function div2(a,b) {
     if (b === 0) return 'ERROR:Div by 0'
     else         return 10*a/b/10 }
 function operate(objState) {
-    for (prop in appState) 
+    for (prop in appState)
         appState[prop] = (appState[prop] !== ".")
                         ? appState[prop]
                         : 0;
@@ -180,7 +177,7 @@ document.querySelectorAll('.btn').forEach(btn => {
 
 document.addEventListener('keydown', event => {
     let keyPressed = "";
-    keyPressed = (event.key.match(/\d/)) 
+    keyPressed = (event.key.match(/\d/))
         ? event.key
         : {
         "Escape"    : "clear",
@@ -194,13 +191,19 @@ document.addEventListener('keydown', event => {
         "Enter"     : "equals"
         }[event.key]
 
-        if (keyPressed) { 
+        if (keyPressed) {
             updateAppState(keyPressed);
             let keyBtn = document.getElementById(keyPressed);
             keyBtn.classList.add("active");
-            document.addEventListener("keyup", e => 
+            document.addEventListener("keyup", e =>
                 removeClassActive(keyBtn))
-            document.removeEventListener("keyup", e => 
-                removeClassActive(keyBtn)) 
+            document.removeEventListener("keyup", e =>
+                removeClassActive(keyBtn))
         }
 });
+
+document.getElementById("neon-bnw").addEventListener('change', el => {
+    [...document.querySelectorAll("*")].forEach(el => {
+        el.classList.toggle('dark');
+    })
+})
