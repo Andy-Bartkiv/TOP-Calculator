@@ -6,7 +6,7 @@
 
 @font-face {
     font-family: fontDigital-7;
-    src: url(/Assets/digital-7-mi.ttf);
+    src: url('Assets/digital-7-mi.ttf');
 }
 
 :root {
@@ -48,7 +48,7 @@ body.dark {
 
 body::after {
     content: "";
-    background: url("/Assets/Neon-BG.jpg");
+    background: url("Assets/Neon-BG.jpg");
     opacity: 1;
     top: 0;
     bottom: 0;
@@ -61,7 +61,7 @@ body::after {
 
 body.dark::after {
     content: "";
-    background: url("/Assets/Neon-BG.jpg");
+    background: url("Assets/Neon-BG.jpg");
     opacity: 0;
     top: 0;
     bottom: 0;
