@@ -48,7 +48,7 @@ function updateAppState(key) {
 // EQUALS allows user to modify result as first operand 
 //  ->                          for further calculations
             for (prop in appState) appState[prop] = "";
-// Different logic -> user can not modify first operand
+{// Different logic -> user can not modify first operand
 // -> last OPERATOR is kept for further calculations
 //            appState.bbb = "";
 //            appState.aaa = (display.textContent !== "_")
@@ -56,9 +56,10 @@ function updateAppState(key) {
 //                            : ""
 //            if (display.textContent[0] === "E")
 //                for (prop in appState) appState[prop] = "";
+}
         }
     } 
-    console.log(appState, display.textContent);
+//    console.log(appState, display.textContent);
 }
 
 function displaySymb(symb) {
@@ -80,32 +81,34 @@ function displaySymb(symb) {
 }
 
 function displayNumb(numb) {
-    let res = `${numb}`
-    if (res.length > digLimBtm) {
-        res = `${numb.toExponential()}`;
+    let res = `${numb}`;
+    let sign = (numb >= 0) ? 0 : -1;
+    if (numb >= 10**digLimBtm 
+    || numb <= -(10**(digLimBtm-1))
+    || Math.abs(numb) < 1 / (10**(9))) {
+        res = numb.toExponential(digLimBtm);
         let exp = res.slice(res.search("e"));
-        console.log("\n", res, res.search("e"), exp);
-        if (res.length > digLimBtm) {
-            res = res.slice(0, digLimBtm-exp.length);
-            res += exp;
+        res = numb.toExponential(digLimBtm - exp.length - 2 + sign).slice(0, digLimBtm - exp.length);
+        if (exp[1] === "-") { // Improving Exponential representation for abs(numb) < 1.
+            exp = "e".concat(Number(exp.slice(1)) + 1);
+            res = (numb >= 0) 
+                ? "0." + res.replace(".","").slice(0, res.length-2)
+                : "-0." + res.replace(".","").slice(1, res.length-2)
         }
-        if (Math.abs(numb) < 1)
-            if (Math.abs(numb) < 1/(10**digLimBtm)) {
-                res = (numb >= 0) 
-                    ? "0." + res.replace(".","").slice(0, res.length-2-exp.length) + exp
-                    : "-0." + res.replace(".","").slice(1, res.length-2-exp.length) + exp
-            } else {
-                res = (numb >= 0)
-                    ? numb.toFixed(digLimBtm-2)
-                    : numb.toFixed(digLimBtm-2-1)
-                console.log(numb, res)
-            }
+        res = clearZeros(res);
+        res += exp;
+    } else {
+        let dotInd = digLimBtm - res.indexOf(".") + sign;
+        dotInd = (dotInd > 0) ? dotInd : 0; 
+        res = numb.toFixed(dotInd);
+        res = clearZeros(res);
     }
     display.textContent = res;
 }
 
 function displayUndo() {
-    display.textContent = display.textContent.slice(0,-1);
+    const eInd = display.textContent.search("e"); // handling Exponential numbers edition
+    display.textContent = display.textContent.slice(0, eInd);
     if (display.textContent.length === 0)
         displaySymb("_");
 }
@@ -114,6 +117,20 @@ function displayClear() {
     display.textContent = "";
     displaySymb("_");
     for (prop in appState) appState[prop] = "";
+}
+
+function clearZeros(str) {
+    while (str[str.length-1] === "0" && str.indexOf('.') >= 0) {
+        console.log(str)
+        
+        str = str.slice(0,-1);
+        if (str.slice(-1) === ".") {
+            str = str.slice(0,-1);
+            console.log(str)
+            break;
+        }
+    }
+    return str;
 }
 
 function add2(a,b) {return (a*10+b*10)/10}
@@ -152,7 +169,6 @@ let appState = { // App current State tracker
 
 let display = document.querySelector(".display")
 
-// displayNumb("@2021_Andy_Bartkiv_");
 updateAppState("clear");
 
 document.querySelectorAll('.btn').forEach(btn => {
@@ -187,4 +203,4 @@ document.addEventListener('keydown', event => {
             document.removeEventListener("keyup", e => 
                 removeClassActive(keyBtn)) 
         }
-})
+});
