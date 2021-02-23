@@ -103,6 +103,9 @@ body.dark::after {
     padding: 0 0.15rem;
     height: 1rem;
     transition: var(--time-animation);
+    display: flex;
+    align-items:center;
+    justify-content: flex-end;
 }
 .display.dark {
     background-color: var(--color-drk-1e);
