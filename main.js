@@ -97,6 +97,8 @@ function displayNumb(numb) {
         }
         res = clearZeros(res);
         res += exp;
+        if (numb == 0) res = "0";
+    } else if (res === 'ERROR:Div by 0') {
     } else {
         let dotInd = digLimBtm - res.indexOf(".") - 1;
         dotInd = (dotInd > 0) ? dotInd : 0;
