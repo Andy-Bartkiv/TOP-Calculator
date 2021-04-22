@@ -40,10 +40,10 @@ body {
 body.dark {
     --color-drk-1e: #1e1e1e;
     --color-drk-2e: #2e2e2e;
-    --color-lgt-e1: #e1e1e1;
+    --color-lgt-e1: #e9e9e9;
     --color-lgt-b0: #b0b0b0;
     background-color: var(--color-lgt-b0);
-    --color-bright-green: #e1e1e1;
+    --color-bright-green: #e9e9e9;
 }
 
 body::after {
@@ -71,7 +71,9 @@ body.dark::after {
     border-radius: 0.1rem;
 }
 .container.dark {
-    background-color: var(--color-lgt-e1);
+    background-color: #e1e1e1;
+    padding: 0 0.1rem;
+    padding-top: 0.025rem;
 }
 
 /* - - - DISPALY - - - */
@@ -79,7 +81,7 @@ body.dark::after {
     background-color: var(--color-dark-green);
     border: 2px solid var(--color-middle-green);
     color: var(--color-bright-green);
-    border-radius: 0.2rem;
+    border-radius: 0.15rem;
     display: flex;
     align-items:center;
     justify-content: flex-end;
@@ -88,9 +90,12 @@ body.dark::after {
     transition: var(--time-animation);
 }
 .cont-display.dark {
+    background-color: var(--color-drk-1e);
     border: 2px solid var(--color-drk-1e);
-    margin: 0 0.1rem;
-    margin-top: 0.05rem;
+    border: 0.05rem solid #e9e9e9;
+    margin-bottom: 0.1rem;
+    box-shadow: -0.025rem -0.025rem 0.05rem 0 #fff,
+                0.025rem 0.025rem 0.05rem 0 #00000099;
 }
 
 .display {
@@ -100,7 +105,7 @@ body.dark::after {
     font-size: 1rem;
     white-space: nowrap;
     border-radius: 0.1rem;
-    padding: 0 0.15rem;
+    padding: 0 0.1rem;
     height: 1rem;
     transition: var(--time-animation);
 }
@@ -141,6 +146,9 @@ body.dark::after {
     border: 1px solid var(--color-drk-1e);
     gap: 0.1rem;
     padding: 0.1rem;
+    border: none;
+    box-shadow: -0.025rem -0.025rem 0.05rem 0 #ffffff,
+                    0.025rem 0.025rem 0.05rem 0 #00000099;
 }
 
 .btn {
@@ -153,12 +161,16 @@ body.dark::after {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: 0.1s;
+    transition: 0.05s;
 }
 .btn.dark {
     background-color: var(--color-lgt-e1);
     border: 1px solid var(--color-drk-1e);
-    box-shadow: 0 0.05rem var(--color-lgt-b0);
+    border: none;
+    background: linear-gradient(-45deg, rgba(0,0,0,0.25), rgba(255,255,255,0.75));
+    text-shadow: -1px -1px 2px #ffffff, 1px 1px 2px #00000099;
+    box-shadow: -0.05rem -0.05rem 0.1rem 0 #fff,
+                0.05rem 0.05rem 0.1rem 0 #00000099;
 }
 
 #equals {
@@ -168,14 +180,15 @@ body.dark::after {
 
 #equals, #M, #D, #A, #S {
     font-weight: 900;
-    
+
 }
-#equals.dark, #M.dark, #D.dark, #A.dark, #S.dark {
-    background-color: var(--color-lgt-b0);
-}
+/* #equals.dark, #M.dark, #D.dark, #A.dark, #S.dark {
+    background: linear-gradient(-45deg, rgba(0,0,0,0.25), rgba(255,255,255,0.75));
+} */
+
 
 .btn:hover {
-    background-color: #00000000; /*Transparent color #000000 00*/
+    background-color: #00000000;
     color: var(--color-bright-green);
     border: 2px solid var(--color-bright-green);
     box-shadow:
@@ -184,16 +197,16 @@ body.dark::after {
         0 0px 0.25rem var(--color-bright-green),
         inset 0 0px 0.25rem var(--color-bright-green);
 }
+
 .btn:hover.dark {
-    border: 1px solid var(--color-drk-1e);
     background-color: var(--color-lgt-e1);
     color: var(--color-drk-1e);
-    font-size: 0.65rem;
-    box-shadow:
-        0 0.05rem var(--color-lgt-b0),
-        0 0px 0.05rem var(--color-lgt-b0),
-        0 0px 0.1rem var(--color-lgt-b0);
-} 
+    border: none;
+    transform: translate(0.01rem, 0.01rem);
+    text-shadow: -1px -1px 2px #ffffff, 1px 1px 2px #00000099;
+    box-shadow: -0.025rem -0.025rem 0.05rem 0 #fff,
+                0.025rem 0.025rem 0.05rem 0 #00000099;
+}
 
 .btn:active, .active {
     background-color: var(--color-bright-green);
@@ -207,8 +220,11 @@ body.dark::after {
 }
 
 .btn:active.dark, .active.dark {
-    border-color: var(--color-lgt-e1);
-    box-shadow: 0 0 var(--color-lgt-b0),
+    transform: translate(0.03rem, 0.03rem);
+    background: linear-gradient(135deg, rgba(0,0,0,0.25), rgba(255,255,255,0.75));
+    text-shadow: -1px -1px 2px #ffffff, 1px 1px 2px #00000099;
+    box-shadow: inset -0.05rem -0.05rem 0.1rem 0 #fff,
+                inset 0.05rem 0.05rem 0.1rem 0 #00000099;
 }
 
 /* - - - FOOTER - - - */
@@ -219,6 +235,7 @@ body.dark::after {
     justify-content: space-between;
     font-size: 0.1rem;
     padding: 0 0.25rem;
+    padding-top: 0.05rem;
     transition: var(--time-animation);
 }
 
@@ -251,6 +268,8 @@ input[type="checkbox"]::before {
 input:checked[type="checkbox"]::before {
     left: 0.2rem;
     background: var(--color-lgt-b0);
+    background: linear-gradient(-45deg, #2e2e2e, #e9e9e9);
+    box-shadow: 0.01rem 0.01rem 0.025rem 0 #00000099;
 }
 
 input:checked[type="checkbox"] {
